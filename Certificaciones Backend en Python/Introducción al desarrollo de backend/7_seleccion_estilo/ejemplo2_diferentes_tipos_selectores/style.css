@@ -1,0 +1,22 @@
+/* ELEMENTOS DESCENDIENTES */
+/* #blog h1 {
+    color:blue;
+} */
+
+/* SOLO LOS HIJOS NO LOS NIETOS */
+/* #blog div h1 {
+    color: blue;
+} */
+
+/* SELECTORES SECUNDARIOS */
+/* Seleccionará el elemento con el ID blog (el principal), luego seleccionará todos los elementos h1 que estén contenidos directamente en ese elemento (los secundarios).
+  */
+#blog > h1 {
+    color: blue;
+}
+
+/* PSEUDOCLASE */
+a:hover {
+    color: yellow; 
+    background-color: black;
+}

@@ -1,0 +1,67 @@
+Elementos de los cuadros desde adentro hacia afuera
+---------------------------------------------------
+content
+padding: es una bolsa de aire
+border: rodea el padding y el contenido
+margin
+
+
+Establecer el borde
+-------------------
+
+HTML
+
+<h1>
+Weekend Sale!
+</h1>
+
+
+Para CSS hay varias opciones de border: thin, medium, thick
+CSS
+
+h1 {
+    border-width: thin;
+}
+
+
+size: se como conoce como el ancho y la altura del contenido
+
+Importante: se puede controlar el tamaño para manipular el diseño. para aplicamos las
+----------- reglas CSS al contenido, como ancho, ancho min, ancho max, altura, altura min, altura max.
+
+PADDING: amplia el tamaño del contenido, su tamaño se conoce como el ancho y la altura del cuadro de relleno.
+-------- el grosor del rello está determinado por el relleno superior, el inferior, el izquiero y el derecho.
+
+Calcular el ancho del padding
+------------------------------
+El ancho de cuadro de relleno puede calcularse como la suma del ancho de contenido, el relleno izquiero y
+el relleno derecho.
+
+Calcular la altura del padding
+------------------------------
+Se suma la altura del contenido, el relleno superior y el relleno inferior.
+
+CONSEJO PROFESIONAL: Calcular tamaño de los elementos HTML en el modelo de cajas
+--------------------------------------------------------------------------------
+
+elemento html = tamaño del cuadro de borde
+
+DEFINIR EL BORDE 
+----------------
+
+Obtener ancho de cuadro de borde:
+---------------------------------
+1. sumar el ancho de cuadro de relleno
+2. borde izq y borde der
+
+Calcular la suma de la altura del cuadro del borde
+--------------------------------------------------
+1. sumar altura de cuadro de relleno y el borde superior y el borde inferior
+
+
+DEFINIR EL MARGEN
+-----------------
+Anchura: El ancho de cuadro de margen puede calcularse sumando el ancho del cuadro de borde, el margen izquierdo y
+el margen derecho. 
+
+Altura: para obtener la altura del cuadro de margen a la altura del cuadro de borde, el margen superior y el margen inferior.

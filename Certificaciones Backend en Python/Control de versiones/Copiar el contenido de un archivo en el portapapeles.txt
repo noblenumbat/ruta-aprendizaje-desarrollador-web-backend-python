@@ -1,0 +1,12 @@
+En Ubuntu, el comando equivalente a pbcopy en macOS es xclip. Puedes utilizar el siguiente comando para copiar el contenido del archivo de clave pública al portapapeles en Ubuntu:
+
+xclip -sel clip < ~/.ssh/<SU CLAVE>.pub
+
+Recuerda reemplazar <SU CLAVE> con el nombre del archivo de claves de tu dispositivo.
+
+Si xclip no está instalado en tu sistema, puedes instalarlo utilizando el siguiente comando:
+
+sudo apt-get install xclip
+
+
+

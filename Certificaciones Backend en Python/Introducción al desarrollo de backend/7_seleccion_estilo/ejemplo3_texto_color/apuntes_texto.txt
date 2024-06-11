@@ -1,0 +1,42 @@
+Transformación de texto
+
+La transformación de texto es útil si se desea garantizar el uso correcto de mayúsculas en el contenido del texto. 
+En el ejemplo que sigue, la regla CSS cambiará todo el texto de los elementos paragraph a mayúscula utilizando la 
+propiedad text-transformation:
+
+p {
+    text-transform: uppercase;
+}
+
+Los valores más utilizados para la propiedad text-transformation son: uppercase, lowercase, capitalize y none. 
+El valor predeterminado utilizado es none, que significa que el texto se muestra tal y como se escribió en el 
+documento HTML.
+
+Decoración de texto
+La propiedad text-decoration sirve para aplicar una decoración adicional al texto, como subrayado y tachado.
+
+p {
+    text-decoration: underline;
+}
+
+También es posible definir el color, el grosor y el estilo de la decoración. En el siguiente ejemplo, 
+el subrayado será una línea roja sólida de 5 píxeles de grosor.
+
+p {
+    text-decoration: underline red solid 5px;
+}
+
+Si estos temas parecen confusos,
+no se preocupe. Estas propiedades se pueden establecer individualmente utilizando las propiedades text-decoration-line, 
+text-decoration-color, text-decoration-style y text-decoration-weight. Volvamos a utilizar el mismo ejemplo y definámoslo 
+utilizando las propiedades individuales:
+
+p {
+    text-decoration-line: underline;
+    text-decoration-color: red;
+    text-decoration-style: solid;
+    text-decoration-thickness: 5px;
+}
+
+Hay muchos estilos disponibles para la propiedad text-decoration-style: solid, double, dotted, dashed y wavy. 
+La propiedad text-decoration-style requiere definir la línea de decoración. Si no se especifica el estilo de decoración, se utilizará el solid.

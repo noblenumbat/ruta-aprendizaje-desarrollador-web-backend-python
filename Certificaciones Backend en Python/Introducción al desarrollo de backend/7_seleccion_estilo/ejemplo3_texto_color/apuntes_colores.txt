@@ -1,0 +1,63 @@
+RGB
+Colores que ve el ojo humano
+255,255,255 -> blanco
+0,0,0 -> negro (ausencia de color)
+
+255,0,0 -> rojo al 100% verde 0% azul 0%
+
+p {
+    color: rgb(255, 0, 0)
+}
+
+-----------------------------------------------------------------------------------
+
+RGB(A) Añade un canal alfa que significa opacidad o transparencia
+
+p {
+    color: rgba(255, 0, 0, 128)
+}
+
+-----------------------------------------------------------------------------------
+
+valor HSL
+(H) tono
+(S) saturación
+(L) luminosidad
+
+Tono
+Piense en un arco iris que se ha convertido en un círculo completo. 
+Esto representa el tono. El valor de tono es el valor de grado de este círculo, 
+de 0 grados a 360 grados. 
+El rojo es 0, 
+el verde es 120 y 
+el azul es 240.
+
+
+Saturación
+La saturación es la distancia desde el centro del círculo hasta su borde. 
+El valor de saturación se representa mediante un porcentaje de 0 % a 100 %, 
+donde 0 % es el centro del círculo y 100 % su borde. Por ejemplo, el 0 % significa 
+que el color es más gris y el 100 % representa el color completo.
+
+Luminosidad
+La luminosidad es el tercer elemento de este modelo de color. Piense en ello como 
+convertir el círculo en un cilindro 3D donde la parte inferior es más negra y la parte 
+superior es más blanca. Por lo tanto, la luminosidad es la distancia desde la parte 
+inferior del cilindro hasta la parte superior. De nuevo, la luminosidad se representa 
+con un porcentaje del 0 % al 100 %, donde el 0 % es la parte inferior del cilindro y 
+el 100 %, la parte superior. En otras palabras, el 0 % significa que el color es más 
+negro y el 100 % es blanco.
+
+p {
+    color: hsl(0, 100%, 50%);
+}
+
+-----------------------------------------------------------------------------------
+
+Hexadecimal
+Decimal es lo que usamos todos los días. Los dígitos van de 0 a 9 antes de usar decenas y centenas.
+
+El hexadecimal es similar, excepto que tiene 16 dígitos. 
+Esto se cuenta como 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F.
+
+Por ejemplo, el color rojo que es RGB 255,0,0 se escribiría como hexadecimal así: #FF0000.

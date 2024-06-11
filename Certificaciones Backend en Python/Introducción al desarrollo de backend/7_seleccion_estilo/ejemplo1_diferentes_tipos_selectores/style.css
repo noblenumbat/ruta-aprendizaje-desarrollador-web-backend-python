@@ -1,0 +1,21 @@
+h1 {
+    color: purple;
+}
+
+#header1 {
+    color: white;
+    background-color: gray;
+}
+
+p {
+    color: blue;
+}
+
+.navigation {
+    border: 1px solid;
+    margin: 2px;
+}
+
+p.introduction {
+    background-color: blanchedalmond;
+}

@@ -1,0 +1,31 @@
+DOM
+
+Todos los elemenos del archivo HTML se representan como objetos en el modelo de objetos de documento.
+Como desarrollador, puedo utilizar JavaScript para accder al DOM y modificarlo para que sus páginas
+sean dinámicas.
+
+Accesibilidad
+Discapacidades que inciden en la interacción con los sitios web:
+Auditivas y visuales
+Cognitivas y neurológicas
+Físicas y del habla 
+
+
+W3C Web Accessibilities Initiative (WAI)
+Elaboró especificaciones y recursos de apoyo a la accesibilidad.
+Son estándares internacionales de accesibilidad web.
+
+La Accesibilidad web se esta convirtiendo en un requisito en muchas industrias.
+En 2016 la Unión Europea aprobó la directiva de accesibilidad web que exige que los sitios web y las
+aplicaciones móviles de los organismos públicos sean accesibles para las personas con discapacidades.
+
+Ejemplos:
+* Software lector de pantalla
+* Subtitulos en videos
+* Reconocimiento de voz
+
+ARIA
+Describe técnicas para mejorar la accesibilidad de aplicaciones web complejas.
+
+Nota: se recomienda implementar la accesibilidad desde el comienzo del proyecto ya que luego es más díficil
+reacerlo.

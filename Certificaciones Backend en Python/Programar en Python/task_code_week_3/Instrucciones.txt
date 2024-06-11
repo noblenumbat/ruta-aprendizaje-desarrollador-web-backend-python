@@ -1,0 +1,37 @@
+Competencias:
+	* Comprensiones (listas, diccionarios)
+	
+
+¿Que tengo?
+	* Una (1) lista con datos de empleados [{},{},{},{},{},...]
+
+Para hacer
+	* Cuentas de inicio de sesión para los empleados (crear nombres de empleados)
+	* Actualizar la lista de empleados en el calendario (¿Qué es el calendario? otra lista? un diccionario?)
+	  Sugiere que debo anexar datos de la lista empleados al calendario.
+	* Acceder a iniciales e ID de empleado en la lista de empleados. Generar un diccionario con la información requerida.
+
+Instrucciones
+	1. Abrir el archivo comprehensions.py
+	
+	2. GENERAR UNA LISTA CON LOS NOMBRES DE LOS EMPLEADOS:
+	   Implementar la función to_mod_list() usando la función map() para aplicar mod() a todos los elementos 
+	   dentro de employee_list
+	   map_emp = list(map(mod,employee_list))
+	   return map_emp 
+	   
+	3. GENERAR NOMBRES DE USUARIOS:
+	   Debería tener una lista con nombres de empleados ["Lisa_Cold Storage","","","",...]
+	   Se debe eliminar espacios en blanco de los nombres
+	   Se debe implementar un método generate_username() utilizando la comprensión de la lista y el replace() sobre
+	   to_mod_list para reemplar los espacios (" ") por guones bajos ("_"). Devolver la lista resultante.
+	   
+	4. CREAR UN DICCIONARIO 
+	   Crear un diccionario que almacene las iniciales y los DNI de los empleados.
+	   Implemente map_id_to_inicial() utilizando la comprensión del diccionarios sobre la lista de empleados para
+	   crear un diccionario en el que cada clave  sea la primera letra de un empleado y el valor sea el ID del empleado.
+	   {'j' : 25586922}
+	   
+	5. EJECUTAR LA SECUENCIA DE COMANDOS
+	   python3 comprehensions.py
+	   

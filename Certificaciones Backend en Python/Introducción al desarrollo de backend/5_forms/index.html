@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Formularios</title>
+    </head>
+    <body>
+        <form action="/registration" method="post">
+            <label for="usuario">Usuario:</label><br>
+            <input type="text" name="usuario"><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" /><br>
+
+            <input type="submit" />
+            <br>
+            <input type="checkbox" name="dog" value="Dog" />
+            <label for="dog">I have a dog</label><br>
+            <input type="checkbox" name="cat" value="Cat" />
+            <label for="cat">I have a cat</label><br>
+            <br>
+            <!-- En los input tipo radio el atributo 'name' es el mismo-->
+            <input type="radio" id="low" name="kg" value="Low" />
+            <label for="low">1-2 Kg</label><br>
+            <input type="radio" id="middle" name="kg" value="Middle" />
+            <label for="middle">3-5 Kg</label><br>
+            <input type="radio" id="normal" name="kg" value="Normal" />
+            <label for="normal">10-15 Kg</label><br>
+
+            <p>Otros tipos de input</p>
+            <input type="number" name="age" /><br>
+            <input type="email" name="email" /><br>
+            <input type="file" name="file" />
+
+            <!-- Multilinea -->
+            <p>Multilinea</p>
+            <textarea name="comment" id="question" cols="30" rows="8"></textarea>
+            <br>
+            <!-- Lista desplegable -->
+            <p>Lista desplegable</p>
+            <select name="food">
+                <option value="chocolate">Chocolate</option>
+                <option value="ice_cream">Ice Cream</option>
+            </select>
+
+        </form>
+    </body>
+</html>

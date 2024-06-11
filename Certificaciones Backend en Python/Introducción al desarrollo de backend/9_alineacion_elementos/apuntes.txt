@@ -1,0 +1,11 @@
+Alineación izquierda/derecha de elementos HTML
+-----------------------------------------------
+Las dos formas más comunes de alinear los elementos a la izquierda y a la derecha son utilizar 
+la propiedad float y la propiedad position.
+
+La propiedad position tiene varias opciones de valor que inciden en cómo se muestra el elemento 
+en el flujo del documento. 
+
+La propiedad float establece la posición de un elemento en relación con el contenido de texto 
+dentro de un elemento principal. El texto rodeará el elemento.
+
