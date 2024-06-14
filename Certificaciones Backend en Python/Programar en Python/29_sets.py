@@ -59,7 +59,7 @@ set_b = {4,5,6,7,8}
 #{1, 2, 3}
 
 # ---
-#symmetric_difference retorna elementos no repetidos del primer conjunto respecto al segundo conjunto
+#symmetric_difference retorna elementos no repetidos del primer y segundo conjunto
 
 #print(set_a.symmetric_difference(set_b))
 
