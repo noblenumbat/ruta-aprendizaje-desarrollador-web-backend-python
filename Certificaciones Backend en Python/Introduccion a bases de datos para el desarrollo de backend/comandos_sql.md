@@ -1,10 +1,11 @@
 # Temario
-* [Comandos SQL comunes](#comandos-sql-comunes)
-    +[Lenguaje de definición de datos (DDL)](#lenguaje-de-definición-de-datos-ddl)
-    +[Lenguaje de manipulación de datos (DML)](#lenguaje-de-manipulación-de-datos-dml)
-    +[Lenguaje de control de datos (DCL)](#lenguaje-de-control-de-datos-dcl)
-    +[Leguaje de control de transacciones (TCL)](#leguaje-de-control-de-transacciones-tcl)
-    +[Other Querys](#others-query)
+1. [Comandos SQL comunes](#comandos-sql-comunes)
+    + [Lenguaje de definición de datos (DDL)](#lenguaje-de-definición-de-datos-ddl)
+    + [Lenguaje de manipulación de datos (DML)](#lenguaje-de-manipulación-de-datos-dml)
+    + [Lenguaje de control de datos (DCL)](#lenguaje-de-control-de-datos-dcl)
+    + [Leguaje de control de transacciones (TCL)](#leguaje-de-control-de-transacciones-tcl)
+    + [Other Querys](#others-query)
+1. [Database constraints](#database-contrainsts)
 
 # Comandos SQL comunes
 
@@ -15,9 +16,11 @@
 |DROP|DROP TABLE table_name;|
 |ALTER|ALTER TABLE table_name ADD (column_name datatype(size));|
 |ALTER|ALTER TABLE table_name ADD primary key(column_name);|
-|ALTER|ALTER TABLE table_name MODIFY <field> datatype();| 
+|ALTER|ALTER TABLE table_name MODIFY name_field datatype();| 
 |TRUNCATE|TRUNCATE TABLE table_name;|
 |COMMENT|--Retrieve all data from a table <br> SELECT * FROM table_name;|
+
+[☝️](#temario) 
 
 
 ## Lenguaje de manipulación de datos (DML)
@@ -29,6 +32,8 @@
 |UPDATE|UPDATE table_name SET column1=value1, column2=value2 WHERE condition;|
 |DELETE|DELETE FROM table_name WHERE condition;|
 
+[☝️](#temario) 
+
 
 ## Lenguaje de control de datos (DCL)
 
@@ -36,6 +41,8 @@
 |---|---|
 |GRANT|proporciona al usuario de la base de datos los privilegios necesarios que permiten que los usuarios accedan y manipulen la base de datos|
 |REVOKE|quita permisos a cualquier usuario|
+
+[☝️](#temario) 
 
 
 ## Leguaje de control de transacciones (TCL)
@@ -45,9 +52,46 @@
 |COMMIT|guarda todo el trabajo realizado en la base de datos|
 |ROLLBACK|restaura una base de datos al último estado confirmado|
 
+[☝️](#temario) 
+
+
 ## Others query
 
 |Comando|Proposito|
 |---|---|
 |SHOW columns FROM table_name;|Describe los campos y tipos de datos de una tabla|
 |mysql --version|Muestra la versión instalada de Mysql|
+
+[☝️](#temario) 
+
+
+# Database contrainsts
+Permite garantizar la fiabilidad y precisión de los datos en la base de datos, debe delimitar el tipo de datos que se puede ingresar en la tabla de base datos. Si la base de datos determina una infracción entre restricción y las operaciones de datos, interrumpe estas operaciones.  Un ejemplo puede ser insertar o cargar datos no validos.
+
+Dos restricciones en base de datos pueden ser NOT NULL y DEFAULT.
+
+## Restricción NOT NULL
+
+Se usa para garantizar que los campos siempre esten completo y nunca en blanco. 
+
+Ejemplo:
+
+```
+CREATE TABLE Customer (
+    customer_id int NOT NULL,
+    customer_name varchar(255) NOT NULL
+);Browser Preview
+```
+
+## Restricción DEFAULT
+
+Significa que si no se insertan un dato en un campo, la base de datos asigna un valor por defecto a ese campo.
+
+```
+CREATE TABLE Player (
+    name varchar(50) NOT NULL,
+    city varchar(30) DEFAULT "Colombia"
+);
+```
+
+[☝️](#temario) 
