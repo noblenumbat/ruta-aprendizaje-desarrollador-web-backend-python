@@ -15,9 +15,7 @@ def adivina_el_numero_computadora(x):
         # Generar predicción
         if limite_inferior != limite_superior:
             prediccion = random.randint(limite_inferior, limite_superior)
-        else:
-            prediccion = limite_inferior # también podría ser el límite superior.
-        
+                
         # Obtener respuesta del usuario
         respuesta = input(f"Mi predicción es {prediccion}. Si es muy alta, ingresa (A). Si es muy baja, ingresa (B). Si es correcta, ingresa (C): ").lower()
     
