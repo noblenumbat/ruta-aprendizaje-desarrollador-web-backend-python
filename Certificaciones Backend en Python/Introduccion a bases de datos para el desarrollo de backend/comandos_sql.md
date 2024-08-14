@@ -10,6 +10,7 @@
 1. [Extraer datos del campo de una tabla en una columna de otra tabla](#extraer-datos-del-campo-de-una-tabla-en-una-columna-de-otra-tabla)
 1. [Actualizar datos de una tabla](#actualizar-datos-de-una-tabla)
 1. [Eliminar registros de una tabla](#eliminar-registros-de-una-tabla)
+1. [Ejercicios con operadores aritméticos](#ejercicios-con-operadores-aritméticos)
 
 # Comandos SQL comunes
 
@@ -185,5 +186,177 @@ Sintaxis
 ```
 DELETE FROM table
 ```
+
+[☝️](#temario)
+
+
+# Ejercicios con operadores aritméticos
+
+## Suma
+
+```
+mysql> select * from students;
++----+--------+----------------+------+-----------+--------------+---------+---------+
+| id | nombre | email          | edad | pais      | nacionalidad | saldo   | interes |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+|  1 | Tom    | tom@mail.com   |   13 | Argentina | argentino    | 1000000 |       4 |
+|  2 | Lisa   | lisa@mail.com  |   15 | Mexico    | Mexicana     | 1000000 |       4 |
+|  3 | Peter  | peter@mail.com |   12 | Venezuela | Venezolano   | 1000000 |       4 |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+3 rows in set (0,00 sec)
+
+mysql> select (saldo + 300000) from students;
++------------------+
+| (saldo + 300000) |
++------------------+
+|          1300000 |
+|          1300000 |
+|          1300000 |
++------------------+
+3 rows in set (0,01 sec)
+```
+
+```
+mysql> UPDATE students SET saldo = 1050000 where nacionalidad = 'Venezolano';
+Query OK, 1 row affected (0,01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from students;
++----+--------+----------------+------+-----------+--------------+---------+---------+
+| id | nombre | email          | edad | pais      | nacionalidad | saldo   | interes |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+|  1 | Tom    | tom@mail.com   |   13 | Argentina | argentino    | 1000000 |       4 |
+|  2 | Lisa   | lisa@mail.com  |   15 | Mexico    | Mexicana     | 1000000 |       4 |
+|  3 | Peter  | peter@mail.com |   12 | Venezuela | Venezolano   | 1050000 |       4 |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+3 rows in set (0,00 sec)
+
+mysql> select * from students where saldo + 50000 = 1100000;
++----+--------+----------------+------+-----------+--------------+---------+---------+
+| id | nombre | email          | edad | pais      | nacionalidad | saldo   | interes |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+|  3 | Peter  | peter@mail.com |   12 | Venezuela | Venezolano   | 1050000 |       4 |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+1 row in set (0,00 sec)
+```
+
+## Resta
+
+```
+mysql> ALTER TABLE students ADD prestamos float(9,2);
+Query OK, 0 rows affected, 1 warning (0,03 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> UPDATE students SET prestamos = 200000 WHERE id = 1 or id = 2 or id = 3;
+Query OK, 3 rows affected (0,01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> SELECT nombre, saldo - prestamos FROM students;
++--------+-------------------+
+| nombre | saldo - prestamos |
++--------+-------------------+
+| Tom    |         800000.00 |
+| Lisa   |         800000.00 |
+| Peter  |         850000.00 |
++--------+-------------------+
+3 rows in set (0,00 sec)
+```
+
+Otro ejemplo de restas esta vez en la clausula WHERE
+
+```
+mysql> SELECT nombre, nacionalidad FROM students WHERE saldo - prestamos = 800000;
++--------+--------------+
+| nombre | nacionalidad |
++--------+--------------+
+| Tom    | argentino    |
+| Lisa   | Mexicana     |
++--------+--------------+
+2 rows in set (0,00 sec)
+```
+
+## Multiplicación y División
+
+En este ejemplo estoy agregando dos campos numéricos a la tabla students. Luego a través de un select estoy generando el 4% del saldo de cada estudiante que figura en la tabla.
+
+```
+mysql> UPDATE students SET saldo = 1000000, interes = 3.5 WHERE id = 1 or id = 2 or id = 3;
+Query OK, 3 rows affected, 3 warnings (0,02 sec)
+Rows matched: 3  Changed: 3  Warnings: 3
+
+mysql> select * from students;
++----+--------+----------------+------+-----------+--------------+---------+---------+
+| id | nombre | email          | edad | pais      | nacionalidad | saldo   | interes |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+|  1 | Tom    | tom@mail.com   |   13 | Argentina | argentino    | 1000000 |       4 |
+|  2 | Lisa   | lisa@mail.com  |   15 | Mexico    | Mexicana     | 1000000 |       4 |
+|  3 | Peter  | peter@mail.com |   12 | Venezuela | Venezolano   | 1000000 |       4 |
++----+--------+----------------+------+-----------+--------------+---------+---------+
+3 rows in set (0,00 sec)
+
+mysql> SELECT (saldo * interes)/100 FROM students;
++-----------------------+
+| (saldo * interes)/100 |
++-----------------------+
+|            40000.0000 |
+|            40000.0000 |
+|            40000.0000 |
++-----------------------+
+3 rows in set (0,00 sec)
+```
+
+## Modulo %
+
+```
+mysql> ALTER TABLE students ADD días INT AFTER saldo;
+Query OK, 0 rows affected (0,02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe students;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| id           | int           | NO   |     | NULL    |       |
+| nombre       | varchar(30)   | YES  |     | NULL    |       |
+| email        | varchar(50)   | YES  |     | NULL    |       |
+| edad         | int           | YES  |     | NULL    |       |
+| pais         | varchar(50)   | YES  |     | NULL    |       |
+| nacionalidad | varchar(100)  | YES  |     | NULL    |       |
+| saldo        | decimal(10,0) | YES  |     | NULL    |       |
+| días         | int           | YES  |     | NULL    |       |
+| interes      | decimal(10,0) | YES  |     | NULL    |       |
+| prestamos    | float(9,2)    | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+10 rows in set (0,01 sec)
+
+mysql> UPDATE students SET días = 2 WHERE nombre = 'Tom' or nombre = 'Lisa';
+Query OK, 2 rows affected (0,01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> UPDATE students SET días = 3 WHERE nombre = 'Peter';
+Query OK, 1 row affected (0,01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT nombre, saldo,días FROM  students;
++--------+---------+-------+
+| nombre | saldo   | días  |
++--------+---------+-------+
+| Tom    | 1000000 |     2 |
+| Lisa   | 1000000 |     2 |
+| Peter  | 1050000 |     3 |
++--------+---------+-------+
+3 rows in set (0,00 sec)
+
+mysql> SELECT nombre, saldo % días AS 'sin resto' FROM students WHERE saldo % días = 0;
++--------+-----------+
+| nombre | sin resto |
++--------+-----------+
+| Tom    |         0 |
+| Lisa   |         0 |
+| Peter  |         0 |
++--------+-----------+
+3 rows in set (0,00 sec)
+```
+
 
 [☝️](#temario)
