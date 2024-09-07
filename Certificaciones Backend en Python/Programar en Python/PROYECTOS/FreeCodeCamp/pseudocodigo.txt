@@ -1,0 +1,110 @@
+ __________________________________          
+|_____________Escaner______________|
+
+Inserte una hoja en el cristal y presione ENTER
+            
+            Escaneando ...
+            Escaneando ... ...
+            Escaneando ... ... ...
+
+Inserte otra hoja en el cristal y presione ENTER 
+O Presiones # para terminar
+
+Documento escaneado:
+
+     _____   _____   _____   _____  
+    /    /  /    /  /    /  /    /
+   /____/  /____/  /____/  /____/
+
+
+
+- - - - - - - - - - - - - - - - - - - EXPLICACION DEL HILO - - - - - - - - - - - - - - - - - - - - - - - 
+   Para lograr que la línea con el `print(f'\rInserte otra hoja en {segundos} o presione # para terminar :', end='')` también funcione como un `input`, puedes hacer uso de una combinación de manejo de hilos y lógica condicional. En lugar de solo imprimir, capturaremos la entrada del usuario en cada iteración del temporizador y tomaremos acciones basadas en esa entrada.
+
+En este caso, debemos leer la entrada del usuario sin bloquear el temporizador. Para ello, podemos crear un hilo separado que se ejecute para capturar el input, lo que nos permite seguir decrementando el contador de segundos sin esperar indefinidamente la entrada del usuario.
+
+Aquí te muestro cómo podrías modificar tu código para implementar esta funcionalidad:
+
+### Código Modificado
+
+```python
+import time
+import threading
+
+print(" __________________________________")          
+print("|_____________Escaner______________|")
+primera_hoja = input("Inserte una hoja en el cristal y presione ENTER : ")
+
+def escaner(cant):
+    if cant == "":
+        print("Escaneando ...")
+        time.sleep(1)
+        print("Escaneando ... ...")
+        time.sleep(1)
+        print("Escaneando ... ... ...")
+        time.sleep(1)
+
+        cant = 1
+
+        temporizador(59)
+
+def temporizador(segundos):
+    input_recibido = None
+
+    # Función que se ejecutará en un hilo para capturar la entrada del usuario
+    def obtener_input():
+        nonlocal input_recibido
+        input_recibido = input("\n")  # Captura la entrada del usuario
+
+    # Crear un hilo para capturar la entrada sin bloquear el temporizador
+    hilo_input = threading.Thread(target=obtener_input)
+    hilo_input.daemon = True  # Permite que el hilo se cierre cuando el programa principal termine
+    hilo_input.start()
+
+    while segundos > 0:
+        print(f'\rInserte otra hoja en {segundos} o presione # para terminar :', end='')
+
+        if input_recibido is not None:
+            if input_recibido == '#':
+                print('\nTemporizador terminado por el usuario.')
+                ejecutar_otro_codigo()
+                return
+            elif input_recibido == '':
+                print('\nHoja insertada, continuando escaneo...')
+                escaner('')  # Continúa escaneando más hojas
+                return
+
+        time.sleep(1)  # Espera 1 segundo antes de decrementar el contador
+        segundos -= 1
+
+    print('\nEl tiempo ha terminado. Ejecución del otro código...')
+    ejecutar_otro_codigo()
+
+# Función que se ejecuta cuando el temporizador llega a 0 o se presiona '#'
+def ejecutar_otro_codigo():
+    print('¡Ejecutando otro código!')
+
+# Llamada inicial al escáner
+escaner(primera_hoja)
+```
+
+### Explicación del Código:
+
+1. **Hilo de Entrada `hilo_input`**:
+    - La función `obtener_input()` se ejecuta en un hilo separado para capturar la entrada del usuario. Esto evita que el temporizador principal se bloquee esperando la entrada del usuario.
+    - El uso de `nonlocal input_recibido` permite modificar la variable `input_recibido` desde dentro del hilo, haciendo que el valor sea accesible fuera de la función interna.
+
+2. **Condiciones de entrada**:
+    - Si el usuario presiona `#`, el temporizador se detiene, y se ejecuta `ejecutar_otro_codigo()`.
+    - Si el usuario simplemente presiona `ENTER`, se asume que una nueva hoja fue insertada, y se llama a `escaner('')` para continuar con el proceso de escaneo.
+  
+3. **Decremento del contador**:
+    - El temporizador decrece cada segundo gracias a `time.sleep(1)` y la resta de `segundos -= 1`.
+
+### Comportamiento:
+
+- El código imprime una cuenta regresiva en la misma línea.
+- Captura la entrada del usuario mientras corre la cuenta regresiva.
+- Ejecuta diferentes acciones dependiendo de la entrada (`ENTER` o `#`).
+
+Este enfoque permite que el temporizador siga corriendo mientras espera la entrada, haciendo que el proceso sea más interactivo y flexible.

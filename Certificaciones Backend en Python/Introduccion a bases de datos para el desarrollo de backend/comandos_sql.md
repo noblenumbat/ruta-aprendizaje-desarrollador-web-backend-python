@@ -11,6 +11,8 @@
 1. [Actualizar datos de una tabla](#actualizar-datos-de-una-tabla)
 1. [Eliminar registros de una tabla](#eliminar-registros-de-una-tabla)
 1. [Ejercicios con operadores aritméticos](#ejercicios-con-operadores-aritméticos)
+1. [ORDER BY](#order-by)
+1. [WHERE](#where)
 
 # Comandos SQL comunes
 
@@ -357,6 +359,224 @@ mysql> SELECT nombre, saldo % días AS 'sin resto' FROM students WHERE saldo % d
 +--------+-----------+
 3 rows in set (0,00 sec)
 ```
+[☝️](#temario)
 
+
+# ORDER BY
+
+Sintaxis:
+
+```
+SELECT column_1, column_2, column_3...
+FROM table_name
+ORDER BY column_name ASC; 
+```
+
+```
+SELECT column_1, column_2, column_3...
+FROM table_name
+ORDER BY column_name DESC; 
+```
+
+```
+SELECT column_1, column_2
+FROM table_name
+ORDER BY column1_name ASC, column2_name DESC; 
+```
+
+```
+SELECT +
+FROM table_name
+ORDER BY column1_name ASC, column2_name ASC|DESC; 
+```
+
+## Practicas
+
+Ejecuntando una clausula ORDER BY sencilla
+
+```
+mysql> SELECT * FROM accounts
+    -> ;
++------+----------------+
+| id   | email          |
++------+----------------+
+|    1 | NULL           |
+|    2 | NULL           |
+|    3 | NULL           |
+| NULL | tom@mail.com   |
+| NULL | lisa@mail.com  |
+| NULL | peter@mail.com |
+|    4 | NULL           |
+|    5 | NULL           |
+|    6 | NULL           |
+| NULL | tom@mail.com   |
+| NULL | lisa@mail.com  |
+| NULL | peter@mail.com |
++------+----------------+
+12 rows in set (0,01 sec)
+
+mysql> SELECT email FROM accounts ORDER BY email;
++----------------+
+| email          |
++----------------+
+| NULL           |
+| NULL           |
+| NULL           |
+| NULL           |
+| NULL           |
+| NULL           |
+| lisa@mail.com  |
+| lisa@mail.com  |
+| peter@mail.com |
+| peter@mail.com |
+| tom@mail.com   |
+| tom@mail.com   |
++----------------+
+12 rows in set (0,00 sec)
+
+```
+
+Mostrando registros en orden descendente 'DESC' por el campo 'saldo'
+
+```
+mysql> SELECT * FROM students;
++----+--------+----------------+------+-----------+--------------+---------+-------+---------+-----------+
+| id | nombre | email          | edad | pais      | nacionalidad | saldo   | días  | interes | prestamos |
++----+--------+----------------+------+-----------+--------------+---------+-------+---------+-----------+
+|  1 | Tom    | tom@mail.com   |   13 | Argentina | argentino    | 1000000 |     2 |       4 | 200000.00 |
+|  2 | Lisa   | lisa@mail.com  |   15 | Mexico    | Mexicana     | 1000000 |     2 |       4 | 200000.00 |
+|  3 | Peter  | peter@mail.com |   12 | Venezuela | Venezolano   | 1050000 |     3 |       4 | 200000.00 |
++----+--------+----------------+------+-----------+--------------+---------+-------+---------+-----------+
+3 rows in set (0,01 sec)
+
+mysql> SELECT nombre, edad, nacionalidad, días, saldo FROM students ORDER BY saldo DESC;
++--------+------+--------------+-------+---------+
+| nombre | edad | nacionalidad | días  | saldo   |
++--------+------+--------------+-------+---------+
+| Peter  |   12 | Venezolano   |     3 | 1050000 |
+| Tom    |   13 | argentino    |     2 | 1000000 |
+| Lisa   |   15 | Mexicana     |     2 | 1000000 |
++--------+------+--------------+-------+---------+
+3 rows in set (0,00 sec)
+```
+
+# WHERE
+
+## BETWEEN
+
+Filtra registros dentro de un rango numérico, tiempo o fecha.
+
+Ejemplos:
+
+```
+SELECT id, nombre, apellido, salario FROM empleados WHERE salario BETWEEN 4000 AND 5000;
+```
+
+```
+SELECT id, nombre, apellido, fecha_nacimiento FROM empleados WHERE fecha_nacimiento BETWEEN '1986-01-01' AND '1997-12-31';
+```
+
+```
+SELECT id, nombre, apellido, edad FROM empleados WHERE edad BETWEEN 20 AND 30;
+```
+
+
+## LIKE
+Especifica patrones dentro de un criterio.
+
+```
+SELECT nombre, apellido, departamento FROM empleados WHERE departamento LIKE '%li%';
+
++----------+----------+--------------+
+| nombre   | apellido | departamento |
++----------+----------+--------------+
+| Carlos   | Perez    | Contabilidad |
+| Marta    | Sanchez  | Contabilidad |
+| Diego    | Suarez   | Contabilidad |
+| Ricardo  | Mendoza  | Contabilidad |
+| Patricia | Rivera   | Contabilidad |
+| Alberto  | Romero   | Contabilidad |
+| Felipe   | Aguilar  | Contabilidad |
+| Natalia  | Herrera  | Contabilidad |
++----------+----------+--------------+
+```
+
+```
+SELECT nombre, apellido, departamento FROM empleados WHERE departamento LIKE 'Ma%';
+
++-----------+-----------+--------------+
+| nombre    | apellido  | departamento |
++-----------+-----------+--------------+
+| Ana       | Lopez     | Marketing    |
+| Luis      | Castillo  | Marketing    |
+| Daniel    | Torres    | Marketing    |
+| Carolina  | Peña      | Marketing    |
+| Isabel    | Rojas     | Marketing    |
+| Rodrigo   | Velasquez | Marketing    |
+| Mariana   | Diaz      | Marketing    |
+| Gabriela  | Mendez    | Marketing    |
+| Valentina | Serrano   | Marketing    |
++-----------+-----------+--------------+
+```
+
+```
+SELECT nombre, apellido FROM empleados WHERE apellido LIKE '%ez';
++----------+-----------+
+| nombre   | apellido  |
++----------+-----------+
+| Carlos   | Perez     |
+| Ana      | Lopez     |
+| Pedro    | Martinez  |
+| Laura    | Rodriguez |
+| Jorge    | Ramirez   |
+| Marta    | Sanchez   |
+| Sofia    | Gutierrez |
+| Elena    | Jimenez   |
+| Diego    | Suarez    |
+| Jose     | Alvarez   |
+| Cesar    | Bermudez  |
+| Rodrigo  | Velasquez |
+| Oscar    | Perez     |
+| Raul     | Ramirez   |
+| Gabriela | Mendez    |
+| Sara     | Gonzalez  |
+| Manuel   | Lopez     |
+| Lucia    | Gomez     |
++----------+-----------+
+```
+
+## IN
+Especifica multiples posibles valores para una columna. (Ver min 7 del video)
+
+```
+SELECT nombre, apellido, departamento FROM empleados WHERE departamento IN ('Soporte','Desarrollo');
+
++----------+-----------+--------------+
+| nombre   | apellido  | departamento |
++----------+-----------+--------------+
+| Pedro    | Martinez  | Desarrollo   |
+| Laura    | Rodriguez | Soporte      |
+| Sofia    | Gutierrez | Desarrollo   |
+| Elena    | Jimenez   | Soporte      |
+| Andrea   | Morales   | Soporte      |
+| Paola    | Cruz      | Soporte      |
+| Fernando | Vargas    | Desarrollo   |
+| Gabriel  | Mora      | Desarrollo   |
+| Nicolás  | Rios      | Soporte      |
+| Hugo     | Mejia     | Soporte      |
+| Cesar    | Bermudez  | Desarrollo   |
+| Luis     | Salazar   | Soporte      |
+| Mauricio | Ferrer    | Desarrollo   |
+| Silvia   | Carrillo  | Soporte      |
+| Raul     | Ramirez   | Soporte      |
+| Cristina | Reyes     | Desarrollo   |
+| Sara     | Gonzalez  | Desarrollo   |
+| Manuel   | Lopez     | Soporte      |
+| Javier   | Ruiz      | Soporte      |
+| Lucia    | Gomez     | Desarrollo   |
++----------+-----------+--------------+
+```
+
+TAMBIEN PRÁCTICAR SU USO EN UPDATE Y DELETE
 
 [☝️](#temario)
