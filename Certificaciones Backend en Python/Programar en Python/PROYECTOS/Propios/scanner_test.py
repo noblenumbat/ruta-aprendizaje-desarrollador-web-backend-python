@@ -61,7 +61,7 @@ def mostrar_escaneo():
     
     # aquí se retorna el diccionario que representa las hojas escaneadas
     # print(scanner_pool)
-    num_lineas = len(scanner_pool[0]) # se puede obtener la longitud de lineas de un indice de una lista
+    num_lineas = len(scanner_pool[0]) # se puede obtener la longitud del sublista en el indice cero que es 3
     
     for i in range(num_lineas):
         for figure in scanner_pool:
