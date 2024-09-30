@@ -24,6 +24,7 @@
 |ALTER|ALTER TABLE table_name ADD (column_name datatype(size));|
 |ALTER|ALTER TABLE table_name ADD primary key(column_name);|
 |ALTER|ALTER TABLE table_name MODIFY name_field datatype();| 
+|ALTER|ALTER TABLE productos CHANGE producto_id id INT;|
 |ALTER|ALTER TABLE table_name DROP name_field;|
 |TRUNCATE|TRUNCATE TABLE table_name;|
 |COMMENT|--Retrieve all data from a table <br> SELECT * FROM table_name;|
@@ -577,6 +578,422 @@ SELECT nombre, apellido, departamento FROM empleados WHERE departamento IN ('Sop
 +----------+-----------+--------------+
 ```
 
-TAMBIEN PRÁCTICAR SU USO EN UPDATE Y DELETE
+## Practicando el WHERE con el UPDATE Y DELETE
+
+### Con UPDATE
+
+Para esta práctica he seleccionado registros especificos de la tabla empleados para despues ver el cambio cuando se ejecute el UPDATE o el DELETE.
+
+```
+mysql> SELECT nombre, apellido, salario FROM empleados WHERE salario BETWEEN 3050 and 3600;
++-----------+-----------+---------+
+| nombre    | apellido  | salario |
++-----------+-----------+---------+
+| Ana       | Lopez     | 3200.50 |
+| Elena     | Jimenez   | 3500.00 |
+| Daniel    | Torres    | 3200.00 |
+| Adriana   | Blanco    | 3500.00 |
+| Nicolás   | Rios      | 3200.00 |
+| Jose      | Alvarez   | 3400.00 |
+| Patricia  | Rivera    | 3100.00 |
+| Cesar     | Bermudez  | 3050.00 |
+| Rodrigo   | Velasquez | 3600.00 |
+| Alberto   | Romero    | 3200.00 |
+| Oscar     | Perez     | 3400.00 |
+| Cristina  | Reyes     | 3600.00 |
+| Valentina | Serrano   | 3150.00 |
+| Natalia   | Herrera   | 3500.00 |
+| Lucia     | Gomez     | 3300.00 |
++-----------+-----------+---------+
+15 rows in set (0,00 sec)
+```
+
+Ahora voy a ejecutar un UPDATE haciendo uso del WHERE con el BETWEEN
+
+```
+UPDATE empleados SET salario = 5000  WHERE salario BETWEEN 3050 and 3600;
+
+mysql> SELECT nombre, apellido, salario FROM empleados WHERE salario = 5000;
+
++-----------+-----------+---------+
+| nombre    | apellido  | salario |
++-----------+-----------+---------+
+| Ana       | Lopez     | 5000.00 |
+| Elena     | Jimenez   | 5000.00 |
+| Daniel    | Torres    | 5000.00 |
+| Adriana   | Blanco    | 5000.00 |
+| Nicolás   | Rios      | 5000.00 |
+| Jose      | Alvarez   | 5000.00 |
+| Patricia  | Rivera    | 5000.00 |
+| Cesar     | Bermudez  | 5000.00 |
+| Rodrigo   | Velasquez | 5000.00 |
+| Alberto   | Romero    | 5000.00 |
+| Oscar     | Perez     | 5000.00 |
+| Cristina  | Reyes     | 5000.00 |
+| Valentina | Serrano   | 5000.00 |
+| Natalia   | Herrera   | 5000.00 |
+| Lucia     | Gomez     | 5000.00 |
++-----------+-----------+---------+
+```
+
+### Con DELETE
+
+```
+mysql> SELECT apellido FROM empleados WHERE apellido IN ('campos','mejia','rivera');
++----------+
+| apellido |
++----------+
+| Rivera   |
+| Mejia    |
+| Campos   |
++----------+
+3 rows in set (0,00 sec)
+
+mysql> DELETE FROM empleados WHERE apellido IN ('campos','mejia','rivera');
+Query OK, 3 rows affected (0,01 sec)
+```
+
+Los registros dados en la condición fueron eliminados.
+
+```
+mysql> SELECT apellido FROM empleados WHERE apellido IN ('campos','mejia','rivera');
+Empty set (0,00 sec)
+```
+
+### Operador !>
+
+Sintaxis
+
+```
+SELECT id, nombre, precio
+FROM productos
+WHERE precio !> 100;
+```
+
+Filtra los registros donde el precio no es mayor que 100, lo que es equivalente a precio <= 100.
+
+### Operador ALL
+
+El operador ALL en MySQL se utiliza para comparar un valor con todos los valores devueltos por un subconjunto (subquery). Devuelve TRUE si la comparación es verdadera para todos los valores en el conjunto de resultados.
+
+Sintaxis
+
+```
+SELECT columna
+FROM tabla
+WHERE valor operador ALL (subquery);
+```
+
+# RELACIONES
+
+1. Crear las tablas base (productos y proveedores)
+
+```
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto VARCHAR(50),
+    precio DECIMAL(10,2)
+    );
+Query OK, 0 rows affected (0,10 sec)
+```
+
+```
+CREATE TABLE proveedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    proveedor VARCHAR(100)
+    );
+Query OK, 0 rows affected (0,10 sec)
+```
+
+2. Crear la tabla intermedia con las claves foráneas
+
+```
+CREATE TABLE productos_proveedores (
+    -> producto_id INT,
+    -> proveedor_id INT,
+    -> PRIMARY KEY (producto_id, proveedor_id),
+    -> FOREIGN KEY (producto_id) REFERENCES productos(id)
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE,
+    -> FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0,09 sec)
+```
+
+
+> !Note
+>
+>
+> La tabla intermedia no se llena automáticamente. Esta tabla es una tabla de relación (muchos a muchos) que requiere que insertes los datos manualmente para indicar qué productos están relacionados con qué proveedores.
+
+## Insertando datos en tablas base
+
+```
+INSERT INTO productos (id, producto, precio) VALUES (1, 'cuaderno', 3000), (2, 'lapiz', 700), (3, 'corrector', 2000), (4, 'regla', 2000), (5, 'curvigrafo', 3500), (6, 'compas', 5000), (7, 'carpeta', 2000);
+
+Resultado:
+
+mysql> SELECT * FROM productos;
++----+------------+---------+
+| id | producto   | precio  |
++----+------------+---------+
+|  1 | Cuaderno   | 3000.00 |
+|  2 | lapiz      |  700.00 |
+|  3 | corrector  | 2000.00 |
+|  4 | regla      | 2000.00 |
+|  5 | curvigrafo | 3500.00 |
+|  6 | compas     | 5000.00 |
+|  7 | carpeta    | 2000.00 |
++----+------------+---------+
+7 rows in set (0,00 sec)
+
+```
+
+```
+INSERT INTO proveedores (id, proveedor) VALUES (1, 'A'), (2, 'B'), (3, 'C');
+
+Resultado:
+
+mysql> SELECT * FROM proveedores;
++----+-----------+
+| id | proveedor |
++----+-----------+
+|  1 | A         |
+|  2 | B         |
+|  3 | C         |
++----+-----------+
+3 rows in set (0,00 sec)
+```
+
+## Insertando datos en la tabla intermedia
+
+```
+INSERT INTO productos_proveedores (producto_id, proveedor_id) VALUES (1, 3), (3, 1), (6, 2);
+
+Resultado:
+
+mysql> SELECT * FROM productos_proveedores;
++-------------+--------------+
+| producto_id | proveedor_id |
++-------------+--------------+
+|           3 |            1 |
+|           6 |            2 |
+|           1 |            3 |
++-------------+--------------+
+3 rows in set (0,00 sec)
+```
+
+## Consulta de los datos relacionados
+
+```
+mysql> SELECT p.producto, pr.proveedor
+    -> FROM productos_proveedores pp
+    -> JOIN productos p ON pp.producto_id = p.id
+    -> JOIN proveedores pr ON pp.proveedor_id = pr.id;
++-----------+-----------+
+| producto  | proveedor |
++-----------+-----------+
+| corrector | A         |
+| compas    | B         |
+| Cuaderno  | C         |
++-----------+-----------+
+3 rows in set (0,00 sec)
+```
+
+## Ejercicio: Alternativa al operador ALL 
+
+Para consultar el proveedor con el producto más costoso, por ejemplo cuando existe una relación entre dos tablas
+
+Se requiere obtener el proveedor con el producto de mayor precio.
+
+```
+mysql> SELECT pr.proveedor
+    -> FROM proveedores pr
+    -> JOIN productos_proveedores pp ON pr.id = pp.proveedor_id
+    -> JOIN productos p ON pp.producto_id = p.id
+    -> WHERE p.precio = (SELECT MAX(precio) FROM productos);
++-----------+
+| proveedor |
++-----------+
+| B         |
++-----------+
+1 row in set (0,00 sec)
+```
+
+En este caso:
+
+    Se busca el producto con el precio máximo (MAX(precio)), y luego se obtiene el proveedor relacionado a ese producto.
+
+Resultado:
+
+Ambas consultas te devolverán el nombre del proveedor que está asociado con el producto más costoso.
+
+## Ejercicio: operador ALL en tablas sin relación
+
+Creando tabla competidores para realizar la prueba
+
+```
+mysql> CREATE TABLE competidores (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> nombre VARCHAR(50),
+    -> precio DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+```
+
+Insertando datos en la tabla competidores
+
+```
+INSERT INTO competidores (nombre,precio) VALUES 
+    ('Papeleria Univerisal',1000),
+    ('La Favorita',2900),
+    ('Papeleria Malaga',4500);
+Query OK, 3 rows affected (0,01 sec)
+```
+
+Consultando los datos ingresador
+
+```
+mysql> SELECT * FROM competidores;
++----+----------------------+---------+
+| id | nombre               | precio  |
++----+----------------------+---------+
+|  1 | Papeleria Univerisal | 1000.00 |
+|  2 | La Favorita          | 2900.00 |
+|  3 | Papeleria Malaga     | 4500.00 |
++----+----------------------+---------+
+3 rows in set (0,00 sec)
+```
+
+Seleccionando los productos cuyo precio es mayor que todos los precios de los competidores
+
+```
+SELECT producto, precio FROM productos WHERE precio > ALL (SELECT precio FROM competidores);
++----------+---------+
+| producto | precio  |
++----------+---------+
+| compas   | 5000.00 |
++----------+---------+
+1 row in set (0,00 sec)
+```
+
+Explicación:
+
+    (SELECT precio FROM competidores) devuelve todos los precios de la tabla competidores.
+    > ALL se asegura de que el precio del producto sea mayor que todos los precios devueltos por la subconsulta.
+
+En este caso, solo el Producto compas será seleccionado, porque su precio (5000) es mayor que todos los precios en la tabla competidores (1000, 2900, 4500).
+
+Este ejemplo no requiere una relación entre las tablas productos y competidores, ya que solo estás comparando precios entre dos conjuntos de datos independientes.
+Resumen:
+
+    Con relación entre tablas: Útil cuando las tablas están vinculadas por una clave externa o alguna otra relación.
+    Sin relación entre tablas: Útil cuando simplemente quieres comparar valores entre dos conjuntos de datos independientes.
+
+### Operador AND
+
+Permite la existencia de varias condiciones en la cláusula WHERE de una indicación SQL
+
+```
+mysql> SELECT nombre,apellido,salario,departamento FROM empleados WHERE salario BETWEEN 3000 AND 5000;
++-----------+-----------+---------+------------------+
+| nombre    | apellido  | salario | departamento     |
++-----------+-----------+---------+------------------+
+| Ana       | Lopez     | 5000.00 | Marketing        |
+| Pedro     | Martinez  | 4500.00 | Desarrollo       |
+| Jorge     | Ramirez   | 3800.00 | Ventas           |
+| Sofia     | Gutierrez | 4000.00 | Desarrollo       |
+| Elena     | Jimenez   | 5000.00 | Soporte          |
+| Miguel    | Romero    | 3800.00 | Ventas           |
+| Daniel    | Torres    | 5000.00 | Marketing        |
+| Fernando  | Vargas    | 3000.00 | Desarrollo       |
+| Camila    | Ortiz     | 4000.00 | Ventas           |
+| Adriana   | Blanco    | 5000.00 | Recursos Humanos |
+| Nicolás   | Rios      | 5000.00 | Soporte          |
+| Jose      | Alvarez   | 5000.00 | Ventas           |
+| Cesar     | Bermudez  | 5000.00 | Desarrollo       |
+| Rodrigo   | Velasquez | 5000.00 | Marketing        |
+| Alberto   | Romero    | 5000.00 | Contabilidad     |
+| Oscar     | Perez     | 5000.00 | Recursos Humanos |
+| Cristina  | Reyes     | 5000.00 | Desarrollo       |
+| Carlos    | Pardo     | 3000.00 | Ventas           |
+| Valentina | Serrano   | 5000.00 | Marketing        |
+| Natalia   | Herrera   | 5000.00 | Contabilidad     |
+| Lucia     | Gomez     | 5000.00 | Desarrollo       |
++-----------+-----------+---------+------------------+
+21 rows in set (0,00 sec)
+
+mysql> SELECT nombre,apellido,salario,departamento FROM empleados WHERE nombre = 'Ana' AND salario BETWEEN 3000 AND 5000;
++--------+----------+---------+--------------+
+| nombre | apellido | salario | departamento |
++--------+----------+---------+--------------+
+| Ana    | Lopez    | 5000.00 | Marketing    |
++--------+----------+---------+--------------+
+1 row in set (0,00 sec)
+```
+
+### Operador OR
+
+Se utiliza para combinar varias condiciones en la cláusula WHERE de una indicación SQL
+
+Teniendo en cuenta el ejemplo anterior:
+
+```
+mysql> SELECT nombre,apellido,salario,departamento FROM empleados WHERE nombre = 'Ana' AND salario BETWEEN 3000 AND 5000;
+```
+
+Se va modificar una parte de la sentencia para ver la diferencia, es decir cambiar el primer AND por OR, veremos que los resultados incluyen otros registros. AND a diferencia de OR incluye solo los registros que cumplen todas condiciones.  En la consulta de abajo no solo retorna al empleado con el nombre ANA sino, también todos los empleados que tienen un salario entre 3000 y 5000.
+
+```
+mysql> SELECT nombre,apellido,salario,departamento FROM empleados WHERE nombre = 'Ana' OR salario BETWEEN 3000 AND 5000;
++-----------+-----------+---------+------------------+
+| nombre    | apellido  | salario | departamento     |
++-----------+-----------+---------+------------------+
+| Ana       | Lopez     | 5000.00 | Marketing        |
+| Pedro     | Martinez  | 4500.00 | Desarrollo       |
+| Jorge     | Ramirez   | 3800.00 | Ventas           |
+| Sofia     | Gutierrez | 4000.00 | Desarrollo       |
+| Elena     | Jimenez   | 5000.00 | Soporte          |
+| Miguel    | Romero    | 3800.00 | Ventas           |
+| Daniel    | Torres    | 5000.00 | Marketing        |
+| Fernando  | Vargas    | 3000.00 | Desarrollo       |
+| Camila    | Ortiz     | 4000.00 | Ventas           |
+| Adriana   | Blanco    | 5000.00 | Recursos Humanos |
+| Nicolás   | Rios      | 5000.00 | Soporte          |
+| Jose      | Alvarez   | 5000.00 | Ventas           |
+| Cesar     | Bermudez  | 5000.00 | Desarrollo       |
+| Rodrigo   | Velasquez | 5000.00 | Marketing        |
+| Alberto   | Romero    | 5000.00 | Contabilidad     |
+| Oscar     | Perez     | 5000.00 | Recursos Humanos |
+| Cristina  | Reyes     | 5000.00 | Desarrollo       |
+| Carlos    | Pardo     | 3000.00 | Ventas           |
+| Valentina | Serrano   | 5000.00 | Marketing        |
+| Natalia   | Herrera   | 5000.00 | Contabilidad     |
+| Lucia     | Gomez     | 5000.00 | Desarrollo       |
++-----------+-----------+---------+------------------+
+21 rows in set (0,00 sec)
+```
+
+### Operador ANY
+
+El operador ANY se utiliza para comparar un valor con cualquier valor devuelto por una subconsulta. Generalmente se usa con operadores de comparación `=`, `>`, `<`, `>=`, etc. y retorna verdadero si la condición es verdadera para al menos uno de los valores duvueltos por la subconsulta. 
+
+Sintaxis básica:
+
+`valor_operacion ANY (subconsulta)`
+
+`valor_operacion`: Es el valor que se compara con los resultados de la subconsulta.
+`subconsulta`: Es una consulta que devuelve un conjunto de valores con los que se comparará el `valor_operacion`.
+
+Ejemplo con ANY:
+
+> Note
+>
+>
+> Ejemplo con ANY
+
 
 [☝️](#temario)
