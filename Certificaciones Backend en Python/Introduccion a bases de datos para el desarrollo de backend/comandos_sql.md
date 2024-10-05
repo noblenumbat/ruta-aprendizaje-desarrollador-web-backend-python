@@ -990,10 +990,170 @@ Sintaxis básica:
 
 Ejemplo con ANY:
 
+Se necesita hacer un listado de los productos que tengan precio mayor a por lo menos uno de los precios de los competidores.
+
+```
+mysql> SELECT * FROM competidores;
++----+----------------------+---------+
+| id | nombre               | precio  |
++----+----------------------+---------+
+|  1 | Papeleria Univerisal | 1000.00 |
+|  2 | La Favorita          | 2900.00 |
+|  3 | Papeleria Malaga     | 4500.00 |
++----+----------------------+---------+
+3 rows in set (0,02 sec)
+```
+
+```
+mysql> SELECT * FROM productos;
++----+------------+---------+
+| id | producto   | precio  |
++----+------------+---------+
+|  1 | Cuaderno   | 3000.00 |
+|  2 | lapiz      |  700.00 |
+|  3 | corrector  | 2000.00 |
+|  4 | regla      | 2000.00 |
+|  5 | curvigrafo | 3500.00 |
+|  6 | compas     | 5000.00 |
+|  7 | carpeta    | 2000.00 |
++----+------------+---------+
+7 rows in set (0,01 sec)
+```
+
+```
+mysql> SELECT producto FROM productos WHERE precio > ANY (SELECT precio FROM competidores);
+```
+
+```
++------------+
+| producto   |
++------------+
+| Cuaderno   |
+| corrector  |
+| regla      |
+| curvigrafo |
+| compas     |
+| carpeta    |
++------------+
+6 rows in set (0,00 sec)
+```
+
+Explicación: 
+
+La consulta `SELECT producto FROM productos` selecciona todos los productos, es decir, 
+`WHERE precio > ANY` compara los precios de todos los productos con los precios de los competidores `(SELECT precio FROM competidores);` y si encuentra que el precio de un producto es mayor al precio de un competidor lo selecciona y lo muestra en la consulta. 
+
+lapiz con precio de 700.00 es el único producto cuyo precio NO es mayor a ninguno de los precios de los competidores y por eso no es retornado en la consulta. 
+
+Si queremos comprobar esto hacemos la siguiente consulta:
+
+```
+mysql> SELECT producto FROM productos WHERE precio < ALL (SELECT precio FROM competidores);
++----------+
+| producto |
++----------+
+| lapiz    |
++----------+
+1 row in set (0,00 sec)
+```
+
+Otro ejemplo: consultar el producto o los productos que tengan el mismo o los mismos precios que el de los competidores.
+
+```
+mysql> INSERT INTO competidores (nombre,precio) VALUES ('La Favorita',3500);
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT * from competidores;
++----+----------------------+---------+
+| id | nombre               | precio  |
++----+----------------------+---------+
+|  1 | Papeleria Univerisal | 1000.00 |
+|  2 | La Favorita          | 2900.00 |
+|  3 | Papeleria Malaga     | 4500.00 |
+|  4 | La Favorita          | 3500.00 |
++----+----------------------+---------+
+4 rows in set (0,00 sec)
+
+mysql> SELECT producto FROM productos WHERE precio = ANY (SELECT precio FROM competidores);
++------------+
+| producto   |
++------------+
+| curvigrafo |
++------------+
+1 row in set (0,00 sec)
+
+mysql> 
+```
+
+### Operador EXIST
+
+El operador `EXIST` en MySQL se utiliza para verificar si una subconsulta devuelve al menos una fila. Si la subconsulta devuelve una o más filas, `EXISTS` retorna `TRUE`. Si la subconsulta no devuelve ninguna fila, entonces retorna `FASE`.
+
+a diferencia de operadores como `ALL` o `ANY`, `EXISTS` no devuelve valores específicos de subconsulta, solo verifica su existencia.
+
+Sintaxis básica:
+
+```
+SELECT columnas
+FROM tabla_principal
+WHERE EXISTS (subconsulta);
+```
+
+Ejemplo: Seleccionar todos los productos que estan asociados con al menos un proveedor en la tabla `productos_proveedores`. 
+
+```
+mysql> SELECT * FROM productos_proveedores;
++-------------+--------------+
+| producto_id | proveedor_id |
++-------------+--------------+
+|           3 |            1 |
+|           6 |            2 |
+|           1 |            3 |
++-------------+--------------+
+3 rows in set (0,01 sec)
+
+mysql> SELECT * FROM productos;
++----+------------+---------+
+| id | producto   | precio  |
++----+------------+---------+
+|  1 | Cuaderno   | 3000.00 |
+|  2 | lapiz      |  700.00 |
+|  3 | corrector  | 2000.00 |
+|  4 | regla      | 2000.00 |
+|  5 | curvigrafo | 3500.00 |
+|  6 | compas     | 5000.00 |
+|  7 | carpeta    | 2000.00 |
++----+------------+---------+
+7 rows in set (0,00 sec)
+
+mysql> SELECT * FROM proveedores;
++----+-----------+
+| id | proveedor |
++----+-----------+
+|  1 | A         |
+|  2 | B         |
+|  3 | C         |
++----+-----------+
+3 rows in set (0,01 sec)
+
+mysql> SELECT p.producto FROM productos p WHERE EXISTS(SELECT 1  FROM productos_proveedores pp WHERE pp.producto_id = p.id );
++-----------+
+| producto  |
++-----------+
+| Cuaderno  |
+| corrector |
+| compas    |
++-----------+
+3 rows in set (0,00 sec)
+```
+
+
++ **subconsulta:** Es una consulta que devuelve filas (o no). Si devuelve al menos una fila, `EXIST` será `TRUE`.
+
 > Note
 >
 >
-> Ejemplo con ANY
+> Repasar el primer ejemplo con `EXISTS` y realizar el otro ejemplo.
 
 
 [☝️](#temario)

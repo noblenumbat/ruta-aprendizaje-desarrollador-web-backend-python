@@ -1,0 +1,18 @@
+Otro ejemplo con EXISTS:
+
+Supongamos que quieres obtener los proveedores que no tienen ningún producto asignado. Esto se puede hacer utilizando NOT EXISTS:
+
+sql
+
+SELECT pr.nombre
+FROM proveedores pr
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM productos_proveedores pp
+  WHERE pp.proveedor_id = pr.id_proveedor
+);
+
+En este caso, NOT EXISTS devolverá proveedores que no están asociados con ningún producto en la tabla productos_proveedores.
+Conclusión:
+
+El operador EXISTS se utiliza para verificar la existencia de filas en una subconsulta. Si al menos una fila cumple con la condición, el operador devuelve TRUE, lo que permite que la consulta principal continúe. Es ideal cuando solo necesitas saber si una condición se cumple, sin preocuparte por los valores específicos.
