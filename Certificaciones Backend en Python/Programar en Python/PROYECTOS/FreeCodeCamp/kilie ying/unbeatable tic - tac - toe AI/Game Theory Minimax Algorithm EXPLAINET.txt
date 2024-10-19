@@ -1,0 +1,32 @@
+Esto es un borrador del código, no pretende ser un programa que funcione, solo notas para entender el algoritmo del juego.
+
+El jugador busca maximizar su ganancia y la máquina minimizar su pérdida. Busca el camino de mayor utilidad.
+
+ESTADOS
+
+En esta posibilidad -1 * 1 + 1 ya que queda un cuadrado: -1 * 2 = -2 
+
+X|O|X
+X|O|X
+ |O|O
+
+
+Empate: 0 * 1 = 0 
+ 
+X|O|X       X|O|X
+X|O|X  ->   X|O|X 
+O| |O       O|x|O
+
+
+No hay ningún cuadro vacio: 1 * 1 = 1 
+
+X|O|X       X|O|X
+X|O|0  ->   X|O|O 
+ |X|O       X|X|O
+
+
+Empate: 0 * 1 = 0
+
+X|O|X       X|O|X
+X|O|   ->   X|O|X 
+O|X|O       O|X|O
