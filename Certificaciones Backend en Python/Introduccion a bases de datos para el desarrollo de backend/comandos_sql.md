@@ -7,6 +7,7 @@
     + [Other Querys](#others-query)
 1. [Database constraints](#database-contrainsts)
 1. [Crear y Eliminar una Bases de Datos](#crear-y-eliminar-una-base-de-datos)
+1. [Insertar multiples registros a una tabla](#insertar-multiples-registros-a-una-tabla)
 1. [Extraer datos del campo de una tabla en una columna de otra tabla](#extraer-datos-del-campo-de-una-tabla-en-una-columna-de-otra-tabla)
 1. [Actualizar datos de una tabla](#actualizar-datos-de-una-tabla)
 1. [Eliminar registros de una tabla](#eliminar-registros-de-una-tabla)
@@ -89,7 +90,7 @@ Ejemplo:
 CREATE TABLE Customer (
     customer_id int NOT NULL,
     customer_name varchar(255) NOT NULL
-);Browser Preview
+);
 ```
 
 ## Restricción DEFAULT
