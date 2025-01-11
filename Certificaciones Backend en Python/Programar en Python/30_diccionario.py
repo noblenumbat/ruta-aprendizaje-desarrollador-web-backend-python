@@ -14,7 +14,7 @@
 #Key:
 #---
 
-#un diccionario también es inmutable en el sentido de que los valores se pueden modificar o actualizar.
+#En un diccionario las claves y los valores se pueden modificar o actualizar despues de su creación.
 
 #Value
 #-----
@@ -32,7 +32,7 @@
 #Ejemplo: acceder al elemento Coffee dentro del diccionario Python.
 
 #declaro el diccionario
-#sample_dict = {1: 'Coffe', 2: 'Tea', 3: 'Juice'}
+#sample_dict = {1: 'Coffee', 2: 'Tea', 3: 'Juice'}
 
 #print(sample_dict[1]) #el [1] es la clave NO un indice
 #Coffe
@@ -66,7 +66,7 @@
 
 #Items() la función de elementos
 
-#Values() funnción de valores
+#Values() función de valores
 
 my_d = {1: 'Test', 'Name': 'Jon'}
 #print(type(my_d))

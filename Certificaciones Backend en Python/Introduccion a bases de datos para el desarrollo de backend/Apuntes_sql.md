@@ -1296,4 +1296,115 @@ mysql> SELECT DISTINCT faculty, country FROM estudiantes;
 
 Tenemos que se muestran combinaciones únicas entra faculty y country. Tener presente que valores `NULL` también se consideran valores únicos cuando ejecutamos `SELECT DISTINCT`
 
+
+## Uso de DISTINCT con funciones agregadas de SQL
+
+DISTINCT también se puede utilizar con funciones agregadas de SQL, como COUNT, AVG, MAX, etc. En este caso, debe especificar una expresión que esté escrita mediante el uso de alguna función agregada. Por lo tanto, DISTINCT no solo se puede utilizar con los nombres de columna, sino también con expresiones.
+
+**Ejemplo 1**:
+
+Abajo se muestra la lista de todos los departamentos en la tabla empleados, con algunas filas duplicadas y queremos saber la cantidad de departamentos (_valores únicos_).
+
+```
+mysql> SELECT departamento FROM empleados;
++------------------+
+| departamento     |
++------------------+
+| Contabilidad     |
+| Marketing        |
+| Desarrollo       |
+| Soporte          |
+| Ventas           |
+| Contabilidad     |
+| Desarrollo       |
+| Marketing        |
+| Soporte          |
+| Ventas           |
+| Contabilidad     |
+| Soporte          |
+| Ventas           |
+| Marketing        |
+| Soporte          |
+| Desarrollo       |
+| Ventas           |
+| Contabilidad     |
+| Recursos Humanos |
+| Desarrollo       |
+| Soporte          |
+| Marketing        |
+| Ventas           |
+| Marketing        |
+| Desarrollo       |
+| Soporte          |
+| Ventas           |
+| Marketing        |
+| Recursos Humanos |
+| Desarrollo       |
+| Soporte          |
+| Contabilidad     |
+| Ventas           |
+| Recursos Humanos |
+| Marketing        |
+| Soporte          |
+| Desarrollo       |
+| Contabilidad     |
+| Marketing        |
+| Ventas           |
+| Desarrollo       |
+| Recursos Humanos |
+| Marketing        |
+| Soporte          |
+| Contabilidad     |
+| Recursos Humanos |
+| Ventas           |
+| Soporte          |
+| Desarrollo       |
++------------------+
+49 rows in set (0,00 sec)
+```
+
+Ahora voy a utilizar la función COUNT para saber la cantidad de departamentos en la tabla empleados.
+
+```
+mysql> SELECT COUNT(DISTINCT departamento) as CANT_DEPARTAMENTOS FROM empleados;
++--------------------+
+| CANT_DEPARTAMENTOS |
++--------------------+
+|                  6 |
++--------------------+
+```
+
+**Ejemplo 2**:
+
+Ahora se hará una consulta básica para saber precio promedio de unos productos en la la tabla productos. Pero primero veamos el contenido de la tabla.
+
+```
+mysql> SELECT * FROM productos;
++----+-------------------+---------+
+| id | producto          | precio  |
++----+-------------------+---------+
+|  1 | Cuaderno          | 3000.00 |
+|  2 | lapiz             |  700.00 |
+|  3 | corrector         | 2000.00 |
+|  4 | regla             | 2000.00 |
+|  5 | curvigrafo        | 3500.00 |
+|  6 | compas            | 5000.00 |
+|  7 | carpeta           | 2000.00 |
+|  8 | Carpeta Plástica  | 2900.00 |
++----+-------------------+---------+
+8 rows in set (0,01 sec)
+```
+
+Consultado el precio promedio de un conjunto de productos (_La tabla anterior no tiene valores duplicados pero podremos prácticar la función la función AVG_)
+
+```
+mysql> SELECT AVG(DISTINCT precio) as PRECIO_PROMEDIO FROM productos;
++-----------------+
+| PRECIO_PROMEDIO |
++-----------------+
+|     2850.000000 |
++-----------------+
+1 row in set (0,00 sec)
+```
+
 [☝️](#temario)
