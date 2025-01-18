@@ -15,6 +15,7 @@
 1. [ORDER BY](#order-by)
 1. [WHERE](#where)
 1. [SELECT  DISTINCT](#select-distinct)
+1. [Esquema de base de datos relacionales](#esquema-de-bases-de-datos)
 
 # Comandos SQL comunes
 
@@ -1406,5 +1407,101 @@ mysql> SELECT AVG(DISTINCT precio) as PRECIO_PROMEDIO FROM productos;
 +-----------------+
 1 row in set (0,00 sec)
 ```
+
+[☝️](#temario)
+
+# Esquema de bases de datos 
+
+Un esquema de base de datos es la representación de la base de datos, la cual esta conformada por tablas, los campos de las tablas, los atributos de los campos y las relaciones entre tablas.
+
+El primer paso para crear una base de datos es diseñar el modelo de la base de datos. Los datos se organizan en tablas y cada tabla contiene campos. Esto nos lleva al concepto de entidad, la entidad puede ser cualquier cosa que pueda ser representada a través de una tabla.
+
+Ejemplo:  
+
+Entidad mascota: la entidad mascota y tiene los siguientes atributos que también pueden llamarse campos de la tabla.
+
+```
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| idmascota | int         | NO   | PRI | NULL    |       |
+| tipo      | varchar(20) | NO   |     | NULL    |       |
+| nombre    | varchar(10) | NO   |     | NULL    |       |
+| raza      | varchar(30) | YES  |     | NULL    |       |
+| edad      | int         | YES  |     | NULL    |       |
+| foto      | blob        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+```
+
+Entidad amo_mascota: la entidad amo_mascota tiene los siguientes atributos
+
+```
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| idamo_mascota | int         | NO   | PRI | NULL    |       |
+| nombre        | varchar(20) | YES  |     | NULL    |       |
+| apellido      | varchar(30) | YES  |     | NULL    |       |
+| celular       | varchar(10) | YES  |     | NULL    |       |
+| correo        | varchar(45) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+```
+
+Estas dos tablas podrían relacionarse entre si a través de campos clave.
+
+El esquema de base de datos es el esqueleto de la base de datos y permite comprender de qué manera la aplicación debe almacenar los datos que se están implementando.
+
+Llegados a este punto recomiendo hacer una lectura a cerca de los [tipos de datos en mysql](https://www.w3schools.com/sql/sql_datatypes.asp). 
+
+El esquema de base de datos se divide en tres categorías.
+
+1. Esquema conceptual o lógico.
+1. Esquema interno o físico.
+1. Esquema externo o de vista. 
+
+
+## Esquema conceptual o lógico  
+
+El esquema conceptual o lógico describe la estructura de toda la base de datos para todos los usuarios. Describe la estructura en términos de entidades y características de las entidades, y las relaciones entre ellas. Normalmente, se dibuja un diagrama de (ER-D) para representar el esquema lógico de una base de datos. En este nivel los detalles sobre el almacenamiento físico y la recuperación de datos están ocultos, y la estructura de la base de datos se describe solo a nivel conceptual. Los desarrolladores de bases de datos trabajan con la base de datos en este nivel. 
+
+![esquema conceptual](/esquema-conceptual.png "Esquema conceptual")
+
+Esto representa las entidades del empleado y del departamento en la base de datos junto con sus atributos y la manera en que estas dos entidades se relacionan entre sí.
+
+
+## Esquema interno o físico 
+
+El esquema interno o físico describe el almacenamiento físico de la base de datos. Representa toda la base de datos, pero a un nivel muy bajo. Esto significa que describe de qué manera se almacenan realmente los datos en el disco en forma de tablas, columnas y registros. Define cuáles son los datos que se almacenan en la base de datos y de qué manera se almacenan.
+ 
+Ejemplo de lo que se entiende por esquema interno.
+
+![esquema interno](/esquema-interno.png "Esquema interno")
+
+El ejemplo muestra de qué manera la tabla de empleados debe almacenar físicamente sus datos. Una base de datos real tendría más tablas, y el esquema interno describiría la representación física de todas esas tablas en la base de datos. 
+
+
+## Esquema externo o de vista
+
+Describe la parte de la base de datos en la que esta interesado el usuario en particular. Ocultar los detalles no relevantes de la base de datos de un usuario. Por ejemplo, un usuario del departamento de ventas solo verá los datos relacionados con ventas en una base de datos. Puede haber muchos esquemas externos de una única base de datos para diferentes usuarios. 
+
+![esquema externo](/esquema-externo.png "Esquema externo")
+
+Existen tres esquemas diferentes de cómo tres usuarios diferentes quieren ver la tabla de empleados. Aunque este ejemplo solo incluye la tabla de empleados, en la base de datos real habrá muchas tablas, a saber: empleado, departamento, trabajo, factura, etc. Los diferentes esquemas de visualización tendrán diferentes subconjuntos de la base de datos.
+
+Además, estos diferentes esquemas de visualización tendrán subconjuntos distintos de los atributos en las tablas.
+
+Estos tres niveles de esquema también se conocen como la arquitectura de tres esquemas. Se puede diagramar de esta manera.
+
+![tres niveles](/tres-niveles.png "Tres niveles")
+
+
+**¿Por qué son importantes los esquemas de las bases de datos?**
+
+Un esquema de base de datos ayuda a los ingenieros de bases de datos a organizar los datos en tablas bien definidas con atributos relevantes en ellas. También muestra interrelaciones entre tablas y describe los tipos de datos que debe tener cada columna. Un esquema de base de datos bien diseñado facilita la vida a los ingenieros de bases de datos y a los desarrolladores. Ayuda a realizar lo siguiente:
+ 
+
+    Mantener un conjunto limpio de datos en la base de datos relacionada con una aplicación.
+    Evita la ingeniería inversa del modelo de datos subyacente de vez en cuando.
+    Escribir consultas eficaces para recuperar datos con fines de elaboración de informes, análisis, etc.
 
 [☝️](#temario)
