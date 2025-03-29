@@ -1,4 +1,4 @@
-Otro ejemplo con EXISTS:
+Otro Ejemplo con EXISTS:
 
 Supongamos que quieres obtener los proveedores que no tienen ningún producto asignado. Esto se puede hacer utilizando NOT EXISTS:
 
